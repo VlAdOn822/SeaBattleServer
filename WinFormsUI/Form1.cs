@@ -17,11 +17,10 @@ namespace WinFormsUI
         private ISeaBattle game;
         int numOfPlayer;
         string name;
-        Label ulljoingame;
         string gameCode;
         private IFieldReader fieldReader = new FileFieldReader("field.txt");
         Label[,] myField = new Label[10, 10];
-        Label[,] anamiesField = new Label[10, 10];
+        Label[,] enemyField = new Label[10, 10];
         List<Label[,]> fields;
         Panel pnlMy = new Panel();
         Panel pnlEnemy = new Panel();
@@ -31,22 +30,42 @@ namespace WinFormsUI
         {
             InitializeComponent();
             Connect();
-            CreateFields();
             game = new Game();
         }
 
         private void CreateFields()
         {
             panels = new Panel[] { pnlMy, pnlEnemy };
-            fields = new List<Label[,]>() { myField, anamiesField };
+            fields = new List<Label[,]>() { myField, enemyField };
             for (int i = 0; i < 2; i++)
             {
-                //panels[i].Location = new Point( i* 10*20)
-                Label l = new Label();
-                l.Click += L_Click;
-                panels[i].Controls.Add(l);
-
+                panels[i].Location = new Point(20 + i * 400, 50);
+                panels[i].Size = new Size(360, 360);
+                panels[i].BorderStyle = BorderStyle.Fixed3D;
+                panels[i].Click += L_Click;
                 Controls.Add(panels[i]);
+
+                Label fieldLabel = new Label();
+                if (i == 0)
+                    fieldLabel.Text = $"Your panel";
+                else
+                    fieldLabel.Text = "Enemy's field";
+                fieldLabel.Location = new Point(panels[i].Location.X, 18);
+                Controls.Add(fieldLabel);
+
+                int mySize = panels[i].Width / 10;
+                for (int y = 0; y < 10; y++)
+                {
+                    for (int x = 0; x < 10; x++)
+                    {
+                        Label label = new Label();
+                        label.Size = new Size(mySize, mySize);
+                        label.Location = new Point(x * mySize, y * mySize);
+                        label.BorderStyle = BorderStyle.FixedSingle;
+                        panels[i].Controls.Add(label);
+                        label.MouseClick += new MouseEventHandler(this.L_Click);
+                    }
+                }
             }
         }
 
@@ -54,19 +73,17 @@ namespace WinFormsUI
         {
             Label l = sender as Label;
 
-            for (int i = 0; i < anamiesField.GetLength(0); i++)
+            for (int i = 0; i < enemyField.GetLength(0); i++)
             {
-                for (int j = 0; j < anamiesField.GetLength(1); j++)
+                for (int j = 0; j < enemyField.GetLength(1); j++)
                 {
-                    if(l == anamiesField[i, j])
+                    if (l == enemyField[i, j])
                     {
                         code = GetCode(i, j);
                         return;
                     }
                 }
             }
-            //найти номер лабел, записать в переменную ход. code (char)((int)('a') + i) 
-
         }
 
         private string GetCode(int i, int j)
@@ -93,7 +110,7 @@ namespace WinFormsUI
             tbName.Hide();
 
             numOfPlayer = game.JoinGame(gameCode, name, fieldReader.ReadField());
-            mainTimer.Start();
+            //mainTimer.Start();
         }
 
         private static void Connect()
@@ -113,6 +130,7 @@ namespace WinFormsUI
         {
             gameCode = tbCode.Text;
             JoinGame();
+            CreateFields();
         }
 
         private void mainTimer_Tick(object sender, EventArgs e)
@@ -162,5 +180,6 @@ namespace WinFormsUI
         {
             game.Shot(gameCode, numOfPlayer, code);
         }
+
     }
 }

@@ -43,10 +43,9 @@
             // 
             // tbName
             // 
-            this.tbName.Location = new System.Drawing.Point(376, 265);
-            this.tbName.Margin = new System.Windows.Forms.Padding(4);
+            this.tbName.Location = new System.Drawing.Point(338, 186);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(132, 22);
+            this.tbName.Size = new System.Drawing.Size(100, 20);
             this.tbName.TabIndex = 1;
             // 
             // label1
@@ -55,19 +54,17 @@
             this.label1.BackColor = System.Drawing.SystemColors.Menu;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label1.CausesValidation = false;
-            this.label1.Location = new System.Drawing.Point(364, 242);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(338, 168);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 19);
+            this.label1.Size = new System.Drawing.Size(86, 15);
             this.label1.TabIndex = 2;
             this.label1.Text = "Enter your name";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(375, 295);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Location = new System.Drawing.Point(338, 212);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(133, 37);
+            this.button2.Size = new System.Drawing.Size(100, 30);
             this.button2.TabIndex = 3;
             this.button2.Text = "Start!";
             this.button2.UseVisualStyleBackColor = true;
@@ -75,10 +72,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(686, 295);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Location = new System.Drawing.Point(349, 377);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 31);
+            this.button1.Size = new System.Drawing.Size(75, 25);
             this.button1.TabIndex = 4;
             this.button1.Text = "Join game";
             this.button1.UseVisualStyleBackColor = true;
@@ -94,10 +90,9 @@
             // 
             // tbCode
             // 
-            this.tbCode.Location = new System.Drawing.Point(677, 265);
-            this.tbCode.Margin = new System.Windows.Forms.Padding(4);
+            this.tbCode.Location = new System.Drawing.Point(338, 351);
             this.tbCode.Name = "tbCode";
-            this.tbCode.Size = new System.Drawing.Size(132, 22);
+            this.tbCode.Size = new System.Drawing.Size(100, 20);
             this.tbCode.TabIndex = 5;
             // 
             // mainTimer
@@ -108,29 +103,31 @@
             // lInfo
             // 
             this.lInfo.AutoSize = true;
-            this.lInfo.Location = new System.Drawing.Point(371, 58);
+            this.lInfo.Location = new System.Drawing.Point(335, 335);
+            this.lInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lInfo.Name = "lInfo";
-            this.lInfo.Size = new System.Drawing.Size(46, 17);
+            this.lInfo.Size = new System.Drawing.Size(124, 13);
             this.lInfo.TabIndex = 6;
-            this.lInfo.Text = "label2";
+            this.lInfo.Text = "Enter friend\'s game code";
             // 
             // bMove
             // 
-            this.bMove.Location = new System.Drawing.Point(845, 106);
+            this.bMove.Location = new System.Drawing.Point(11, 416);
+            this.bMove.Margin = new System.Windows.Forms.Padding(2);
             this.bMove.Name = "bMove";
-            this.bMove.Size = new System.Drawing.Size(75, 23);
+            this.bMove.Size = new System.Drawing.Size(84, 23);
             this.bMove.TabIndex = 7;
-            this.bMove.Text = "button3";
+            this.bMove.Text = "Make a step!";
             this.bMove.UseVisualStyleBackColor = true;
             this.bMove.Click += new System.EventHandler(this.bMove_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.bMove);
             this.Controls.Add(this.lInfo);
             this.Controls.Add(this.tbCode);
@@ -139,7 +136,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "WARSHIP";
             this.ResumeLayout(false);
