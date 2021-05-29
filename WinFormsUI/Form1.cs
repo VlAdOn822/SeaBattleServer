@@ -62,6 +62,10 @@ namespace WinFormsUI
                         label.Size = new Size(mySize, mySize);
                         label.Location = new Point(x * mySize, y * mySize);
                         label.BorderStyle = BorderStyle.FixedSingle;
+                        if (i == 0)
+                            myField[x, y] = label;
+                        else
+                            enemyField[x, y] = label;
                         panels[i].Controls.Add(label);
                         label.MouseClick += new MouseEventHandler(this.L_Click);
                     }
@@ -105,12 +109,13 @@ namespace WinFormsUI
             label1.Hide();
             button1.Hide();
             button2.Hide();
-
+            tbCode.Hide();
+            lInfo.Location = new Point(100, 421);
             name = tbName.Text;
             tbName.Hide();
-
             numOfPlayer = game.JoinGame(gameCode, name, fieldReader.ReadField());
-            //mainTimer.Start();
+            CreateFields();
+            mainTimer.Start();
         }
 
         private static void Connect()
@@ -130,7 +135,6 @@ namespace WinFormsUI
         {
             gameCode = tbCode.Text;
             JoinGame();
-            CreateFields();
         }
 
         private void mainTimer_Tick(object sender, EventArgs e)
@@ -141,6 +145,8 @@ namespace WinFormsUI
             if (res != "Ready")
             {
                 bMove.Enabled = false;
+                lInfo.Text = res + $". Your game code is {gameCode}.";
+                return;
             }
 
             if (res == "Ready" && game.CheckWinner(gameCode) == -1)
@@ -172,6 +178,8 @@ namespace WinFormsUI
                 for (int j = 0; j < field[i].Length; j++)
                 {
                     myField[j, i].Text = field[i][j].ToString();
+                    if (myField[j, i].Text == "X")
+                        myField[j, i].ForeColor = Color.Black;
                 }
             }
         }

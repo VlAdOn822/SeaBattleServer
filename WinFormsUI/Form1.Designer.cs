@@ -97,13 +97,13 @@
             // 
             // mainTimer
             // 
-            this.mainTimer.Interval = 5000;
+            this.mainTimer.Interval = 2000;
             this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
             // 
             // lInfo
             // 
             this.lInfo.AutoSize = true;
-            this.lInfo.Location = new System.Drawing.Point(335, 335);
+            this.lInfo.Location = new System.Drawing.Point(325, 335);
             this.lInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lInfo.Name = "lInfo";
             this.lInfo.Size = new System.Drawing.Size(124, 13);
