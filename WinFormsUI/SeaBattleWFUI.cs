@@ -41,7 +41,6 @@ namespace WinFormsUI
             aTimer.Start();
             PrintBoard(game.GetBoard(gameCode, num));
             aTimer.Tick += new EventHandler(this.aTimer_Tick);
-            infocode.Text = "";
         }
 
         private void aTimer_Tick(object sender, EventArgs e)
@@ -49,22 +48,23 @@ namespace WinFormsUI
 
             string res;
             res = game.Update(gameCode, num);
-            if (game.CheckWinner(gameCode) == -1)
-            {
                 if (res != "Ready")
                 {
-                    infocode.Text = "You have not any enemy now or its not your turn to move.";
+                if (infocode.Text == "Your move")
+                {
+                    infocode.Text = "Wait, its your enemy's turn";
                     infocode.Size = new Size(infocode.Text.Length * 6, 15);
-                    res = game.Update(gameCode, num);
                 }
-                if (res == "Ready")
+                    res = game.Update(gameCode, num);
+                    return;
+                }
+                if (res == "Ready" && game.CheckWinner(gameCode) == -1)
                 {
                     PrintBoard(game.GetBoard(gameCode, num));
                     infocode.Text = "Your move";
                     infocode.Size = new Size(infocode.Text.Length * 6, 15);
                     res = game.Update(gameCode, num);
                 }
-            }
             if (game.CheckWinner(gameCode) != -1)
             {
                 if (game.CheckWinner(gameCode) == num)
@@ -89,7 +89,7 @@ namespace WinFormsUI
             Form.ActiveForm.Controls.Add(myPanel);
             Label myLabel = new Label();
             myLabel.Text = $"Your panel";
-            myLabel.Location = new Point(16, 18);
+            myLabel.Location = new Point(16, 25);
             Form.ActiveForm.Controls.Add(myLabel);
 
             Panel enemyPanel = new Panel();
@@ -99,7 +99,7 @@ namespace WinFormsUI
             Form.ActiveForm.Controls.Add(enemyPanel);
             Label enemyLabel = new Label();
             enemyLabel.Text = $"Your enemy panel";
-            enemyLabel.Location = new Point(423, 18);
+            enemyLabel.Location = new Point(423, 25);
             Form.ActiveForm.Controls.Add(enemyLabel);
 
             int mySize = myPanel.Width / 10;
@@ -134,6 +134,8 @@ namespace WinFormsUI
         {
             if(infocode.Text == "Your move")
             {
+                Label label = (Label)sender;
+
 
             }
 
@@ -159,7 +161,7 @@ namespace WinFormsUI
             gameCode = game.StartGame();
             infocode = new Label();
             infocode.Text = $"This game has created. Your game code is {gameCode}.";
-            infocode.Location = new Point(320, 5);
+            infocode.Location = new Point(300, 5);
             infocode.Size = new Size(infocode.Text.Length * 6, 15);
             Form.ActiveForm.Controls.Add(infocode);
             num = game.JoinGame(gameCode, name, field);

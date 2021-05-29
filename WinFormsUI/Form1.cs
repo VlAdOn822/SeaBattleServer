@@ -16,6 +16,7 @@ namespace WinFormsUI
     {
         int joinOrStart=-1;
         string name;
+        Label ulljoingame;
         public Form1()
         {
             InitializeComponent();
@@ -31,19 +32,21 @@ namespace WinFormsUI
             ChannelFactory<ISeaBattle> factory = new ChannelFactory<ISeaBattle>(binding, address);
             // Открываем канал для общения клиента с со службой
             ISeaBattle service = factory.CreateChannel();
-            textBox1.Dispose();
             label1.Dispose();
             button1.Dispose();
             button2.Dispose();
             if (joinOrStart == -1)
             {
                 name = textBox1.Text;
+                textBox1.Dispose();
                 SeaBattleWFUI ui = new SeaBattleWFUI(new Game(), name);
                 ui.Start();
             }
             else
             {
                 int gameCode = Convert.ToInt32(textBox1.Text);
+                textBox1.Dispose();
+                ulljoingame.Dispose();
                 SeaBattleWFUI ui = new SeaBattleWFUI(new Game(), name, gameCode.ToString());
                 ui.Start();
             }
@@ -52,7 +55,7 @@ namespace WinFormsUI
         private void button1_Click(object sender, EventArgs e)
         {
             joinOrStart++;
-            Label ulljoingame = new Label();
+            ulljoingame = new Label();
             ulljoingame.Text = "You will join someone's game";
             ulljoingame.Location = button1.Location;
             button1.Dispose();
