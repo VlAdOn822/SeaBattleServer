@@ -18,7 +18,7 @@ namespace SeaBattleServer
         string[] GetBoard(string gameCode, int numPlayer);
 
         [OperationContract]
-        int CheckWinner(string gameCode);
+        int CheckLooser(string gameCode);
 
         [OperationContract]
         string Update(string gameCode, int numPlayer);

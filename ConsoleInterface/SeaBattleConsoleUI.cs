@@ -43,7 +43,7 @@ namespace ConsoleInterface
                     Console.ReadLine();
                     res = game.Update(gameCode, num);
                 }
-                while (res == "Ready"&& game.CheckWinner(gameCode) == -1)
+                while (res == "Ready"&& game.CheckLooser(gameCode) == -1)
                 {
                     PrintBoard(game.GetBoard(gameCode, num));
                     Console.WriteLine("Your move?");
@@ -51,8 +51,8 @@ namespace ConsoleInterface
                     Console.WriteLine(game.Shot(gameCode, num, code));
                     res = game.Update(gameCode, num);
                 }
-            } while (game.CheckWinner(gameCode) == -1);
-            if (game.CheckWinner(gameCode) == num)
+            } while (game.CheckLooser(gameCode) == -1);
+            if (game.CheckLooser(gameCode) == num)
             {
                 Console.WriteLine("You have won!!!");
             }

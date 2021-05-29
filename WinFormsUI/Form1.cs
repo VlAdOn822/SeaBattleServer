@@ -15,6 +15,7 @@ namespace WinFormsUI
     public partial class Form1 : Form
     {
         private ISeaBattle game;
+        int numOfEnemy;
         int numOfPlayer;
         string name;
         string gameCode;
@@ -26,11 +27,13 @@ namespace WinFormsUI
         Panel pnlEnemy = new Panel();
         Panel[] panels;
         string code;
+
         public Form1()
         {
             InitializeComponent();
             Connect();
             game = new Game();
+           
         }
 
         private void CreateFields()
@@ -62,6 +65,7 @@ namespace WinFormsUI
                         label.Size = new Size(mySize, mySize);
                         label.Location = new Point(x * mySize, y * mySize);
                         label.BorderStyle = BorderStyle.FixedSingle;
+                        label.TextAlign = ContentAlignment.MiddleCenter;
                         if (i == 0)
                             myField[x, y] = label;
                         else
@@ -76,6 +80,7 @@ namespace WinFormsUI
         private void L_Click(object sender, EventArgs e)
         {
             Label l = sender as Label;
+            l.BackColor = Color.Gray;
 
             for (int i = 0; i < enemyField.GetLength(0); i++)
             {
@@ -113,7 +118,9 @@ namespace WinFormsUI
             lInfo.Location = new Point(100, 421);
             name = tbName.Text;
             tbName.Hide();
-            numOfPlayer = game.JoinGame(gameCode, name, fieldReader.ReadField());
+            numOfEnemy = game.JoinGame(gameCode, name, fieldReader.ReadField());
+            if (numOfEnemy == 0) numOfPlayer = 1;
+            else numOfPlayer = 0;
             CreateFields();
             mainTimer.Start();
         }
@@ -140,38 +147,45 @@ namespace WinFormsUI
         private void mainTimer_Tick(object sender, EventArgs e)
         {
             string res;
-            res = game.Update(gameCode, numOfPlayer);
+            res = game.Update(gameCode, numOfEnemy);
             lInfo.Text = res;
-            if (res != "Ready")
+            if (res == "Not Ready")
             {
                 bMove.Enabled = false;
                 lInfo.Text = res + $". Your game code is {gameCode}.";
-                return;
             }
 
-            if (res == "Ready" && game.CheckWinner(gameCode) == -1)
+            else if (res == "Another player is moving now")
             {
-                PrintBoard(game.GetBoard(gameCode, numOfPlayer));
+                bMove.Enabled = false;
+                lInfo.Text = res;
+                PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
+                if (game.CheckLooser(gameCode) == numOfPlayer)
+                {
+                    lInfo.Text = $"You are looser!";
+                    bMove.Enabled = false;
+                    mainTimer.Stop();
+                }
+            }
+
+            else if (res == "Ready" && game.CheckLooser(gameCode) == -1)
+            {
                 bMove.Enabled = true;
                 lInfo.Text = "Your move";
             }
-            if (game.CheckWinner(gameCode) != -1)
+
+            else if (game.CheckLooser(gameCode) != -1)
             {
-                if (game.CheckWinner(gameCode) == numOfPlayer)
+                if (game.CheckLooser(gameCode) == numOfEnemy)
                 {
                     lInfo.Text = "You have won!!!";
-                    bMove.Enabled = false;
-                }
-                else
-                {
-                    lInfo.Text = "You r looser";
                     bMove.Enabled = false;
                 }
                 mainTimer.Stop();
             }
         }
 
-        private void PrintBoard(string[] field)
+        private void PrintPlayerBoard(string[] field)
         {
             for (int i = 0; i < field.Length; i++)
             {
@@ -179,14 +193,57 @@ namespace WinFormsUI
                 {
                     myField[j, i].Text = field[i][j].ToString();
                     if (myField[j, i].Text == "X")
-                        myField[j, i].ForeColor = Color.Black;
+                    {
+                        myField[j, i].ForeColor = Color.Red;
+                        myField[j, i].BackColor = Color.Black;
+                    }
+                    else if (myField[j, i].Text == "-")
+                    {
+
+                        myField[j, i].ForeColor = Color.White;
+                        myField[j, i].BackColor = Color.LightGreen;
+                    }
+                    else
+                    {
+                        myField[j, i].ForeColor = Color.LightBlue;
+                        myField[j, i].BackColor = Color.LightBlue;
+                    }
+
+                }
+            }
+        }
+
+        private void PrintEnemyBoard(string[] field)
+        {
+            for (int i = 0; i < field.Length; i++)
+            {
+                for (int j = 0; j < field[i].Length; j++)
+                {
+                    enemyField[j, i].Text = field[i][j].ToString();
+                    if (enemyField[j, i].Text == "X")
+                    {
+                        enemyField[j, i].ForeColor = Color.Black;
+                        enemyField[j, i].BackColor = Color.Red;
+                    }
+                    else if (enemyField[j, i].Text == "-")
+                    {
+                        enemyField[j, i].ForeColor = Color.White;
+                        enemyField[j, i].BackColor = Color.Black;
+                    }
+                    else
+                    {
+                        enemyField[j, i].ForeColor = Color.LightBlue;
+                        enemyField[j, i].BackColor = Color.LightBlue;
+                    }
                 }
             }
         }
 
         private void bMove_Click(object sender, EventArgs e)
         {
-            game.Shot(gameCode, numOfPlayer, code);
+            game.Shot(gameCode, numOfEnemy, code);
+            PrintEnemyBoard(game.GetBoard(gameCode, numOfEnemy));
+            PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
         }
 
     }

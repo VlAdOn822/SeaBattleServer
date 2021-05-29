@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace SeaBattleServer
 {
-    public class Game: ISeaBattle
+    public class Game : ISeaBattle
     {
         public IRepository Repository(string gameCode)
         {
             return new TxtFileRepository($"game{gameCode}.txt");
         }
 
-        public int CheckWinner(string gameCode)
+        public int CheckLooser(string gameCode)
         {
             Player[] players = Repository(gameCode).ReadPlayers();
-            for(int i= 0; i<players.Length; i++)
+            for (int i = 0; i < players.Length; i++)
             {
                 int count = 0;
-                foreach(var row in players[i].Board)
+                foreach (var row in players[i].Board)
                 {
-                    foreach(var x in row)
+                    foreach (var x in row)
                     {
                         if (x == 'X') count++;
-                        if (count >= 10) return i;
+                        if (count >= 20) return i;
                     }
                 }
             }
@@ -33,7 +33,7 @@ namespace SeaBattleServer
 
         public string[] GetBoard(string gameCode, int numPlayer)
         {
-           
+
             Player[] players = Repository(gameCode).ReadPlayers();
             return players[numPlayer].Board;
         }
@@ -64,18 +64,18 @@ namespace SeaBattleServer
                 old[j] = field[i][j];
                 players[numPlayer].Board[i] = new string(old);
                 Repository(gameCode).WritePlayers(players);
-                if(field[i][j]== 'X')
+                if (field[i][j] == 'X')
                 {
                     return "Hit";
                 }
                 else
                 {
                     Repository(gameCode).WriteNumActivePlayer(numPlayer == 0 ? 1 : 0);
-                        return "Miss";
+                    return "Miss";
 
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
@@ -93,7 +93,7 @@ namespace SeaBattleServer
                 } while (Repository(gameCode).NewGame() != "Ok");
                 return gameCode;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return e.Message;
             }
@@ -104,7 +104,7 @@ namespace SeaBattleServer
             try
             {
                 Player[] players = Repository(gameCode).ReadPlayers();
-                for(int i = 0; i<2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     if (players[i] == null || players[i].Name == null)
                         return "Not Ready";
