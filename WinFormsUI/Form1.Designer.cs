@@ -104,7 +104,7 @@
             // lInfo
             // 
             this.lInfo.AutoSize = true;
-            this.lInfo.Location = new System.Drawing.Point(325, 335);
+            this.lInfo.Location = new System.Drawing.Point(324, 335);
             this.lInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lInfo.Name = "lInfo";
             this.lInfo.Size = new System.Drawing.Size(124, 13);

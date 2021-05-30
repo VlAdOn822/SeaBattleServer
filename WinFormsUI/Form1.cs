@@ -146,6 +146,8 @@ namespace WinFormsUI
 
         private void mainTimer_Tick(object sender, EventArgs e)
         {
+            PrintEnemyBoard(game.GetBoard(gameCode, numOfEnemy));
+            PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
             string res;
             res = game.Update(gameCode, numOfEnemy);
             lInfo.Text = res;
@@ -162,6 +164,9 @@ namespace WinFormsUI
                 PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
                 if (game.CheckLooser(gameCode) == numOfPlayer)
                 {
+                    lInfo.Font = new Font("Tobota", 36, FontStyle.Italic);
+                    lInfo.Location = new Point(190, 187);
+                    lInfo.BackColor = Color.Red;
                     lInfo.Text = $"You are looser!";
                     bMove.Enabled = false;
                     mainTimer.Stop();
@@ -178,6 +183,9 @@ namespace WinFormsUI
             {
                 if (game.CheckLooser(gameCode) == numOfEnemy)
                 {
+                    lInfo.Font = new Font("Tobota", 36, FontStyle.Italic);
+                    lInfo.Location = new Point(190, 187);
+                    lInfo.BackColor = Color.LightGreen;
                     lInfo.Text = "You have won!!!";
                     bMove.Enabled = false;
                 }
@@ -230,7 +238,7 @@ namespace WinFormsUI
                         enemyField[j, i].ForeColor = Color.White;
                         enemyField[j, i].BackColor = Color.Black;
                     }
-                    else
+                    else if (enemyField[j, i].BackColor != Color.Gray)
                     {
                         enemyField[j, i].ForeColor = Color.LightBlue;
                         enemyField[j, i].BackColor = Color.LightBlue;
