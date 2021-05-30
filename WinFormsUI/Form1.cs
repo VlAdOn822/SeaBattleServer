@@ -146,8 +146,7 @@ namespace WinFormsUI
 
         private void mainTimer_Tick(object sender, EventArgs e)
         {
-            PrintEnemyBoard(game.GetBoard(gameCode, numOfEnemy));
-            PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
+            
             string res;
             res = game.Update(gameCode, numOfEnemy);
             lInfo.Text = res;
@@ -161,6 +160,7 @@ namespace WinFormsUI
             {
                 bMove.Enabled = false;
                 lInfo.Text = res;
+                PrintEnemyBoard(game.GetBoard(gameCode, numOfEnemy));
                 PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
                 if (game.CheckLooser(gameCode) == numOfPlayer)
                 {
@@ -175,6 +175,8 @@ namespace WinFormsUI
 
             else if (res == "Ready" && game.CheckLooser(gameCode) == -1)
             {
+                PrintEnemyBoard(game.GetBoard(gameCode, numOfEnemy));
+                PrintPlayerBoard(game.GetBoard(gameCode, numOfPlayer));
                 bMove.Enabled = true;
                 lInfo.Text = "Your move";
             }
