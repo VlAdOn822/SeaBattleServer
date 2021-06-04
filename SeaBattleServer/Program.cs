@@ -11,7 +11,7 @@ namespace SeaBattleServer
     {
         static void Main(string[] args)
         {
-            ServiceHost host = new ServiceHost(typeof(Game), new Uri("http://localhost:8000/SeaBattleServer"));
+            ServiceHost host = new ServiceHost(typeof(Game), new Uri("http://localhost:9000/SeaBattleServer"));
             // Добавляем конечную точку службы с заданным интерфейсом, привязкой (создаём новую) и адресом конечной точки
             host.AddServiceEndpoint(typeof(ISeaBattle), new BasicHttpBinding(), "");
             // Запускаем службу

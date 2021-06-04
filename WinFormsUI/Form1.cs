@@ -31,9 +31,16 @@ namespace WinFormsUI
         public Form1()
         {
             InitializeComponent();
-            Connect();
-            game = new Game();
-           
+            //Connect();
+            Uri tcpUri = new Uri("http://localhost:9000/SeaBattleServer");
+            // Создаём сетевой адрес, с которым клиент будет взаимодействовать
+            EndpointAddress address = new EndpointAddress(tcpUri);
+            BasicHttpBinding binding = new BasicHttpBinding();
+            // Данный класс используется клиентами для отправки сообщений
+            ChannelFactory<ISeaBattle> factory = new ChannelFactory<ISeaBattle>(binding, address);
+            // Открываем канал для общения клиента с со службой
+            ISeaBattle service = factory.CreateChannel();
+            game = service;
         }
 
         private void CreateFields()
@@ -125,18 +132,19 @@ namespace WinFormsUI
             mainTimer.Start();
         }
 
-        private static void Connect()
-        {
-            Uri tcpUri = new Uri("http://localhost:8000/SeaBattleServer");
-            // Создаём сетевой адрес, с которым клиент будет взаимодействовать
-            EndpointAddress address = new EndpointAddress(tcpUri);
-            BasicHttpBinding binding = new BasicHttpBinding();
-            // Данный класс используется клиентами для отправки сообщений
-            ChannelFactory<ISeaBattle> factory = new ChannelFactory<ISeaBattle>(binding, address);
-            // Открываем канал для общения клиента с со службой
-            ISeaBattle service = factory.CreateChannel();
+        //private static void Connect()
+        //{
+        //    Uri tcpUri = new Uri("http://localhost:8000/SeaBattleServer");
+        //    Создаём сетевой адрес, с которым клиент будет взаимодействовать
+        //   EndpointAddress address = new EndpointAddress(tcpUri);
+        //    BasicHttpBinding binding = new BasicHttpBinding();
+        //    Данный класс используется клиентами для отправки сообщений
+        //    ChannelFactory<ISeaBattle> factory = new ChannelFactory<ISeaBattle>(binding, address);
+        //    Открываем канал для общения клиента с со службой
+        //    ISeaBattle service = factory.CreateChannel();
+        //    game = service;
 
-        }
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
